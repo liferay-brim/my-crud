@@ -32,8 +32,6 @@ services:
     env_file: ./.env
     environment:
       "NODE_ENV": "development"
-    command:
-      bash -c "npm install -g nodemon"
     networks:
       - my-app-network
 
