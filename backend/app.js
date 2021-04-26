@@ -2,9 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 8000;
+const cors = require('cors');
 
 // parse requests of content-type: application/json
 app.use(express.json());
+app.use(cors());
 
 // parse requests of content-type: application/x-www-form-urlencoded
 app.use(

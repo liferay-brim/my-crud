@@ -1,4 +1,6 @@
 $(document).ready(function () {
+
+  console.log('Starting!');
   // Activate tooltip
   $('[data-toggle="tooltip"]').tooltip();
 
@@ -22,19 +24,17 @@ $(document).ready(function () {
   });
 
   var form = new FormData();
-  form.append("name", "GCP");
   
   var settings = {
-    "url": "localhost:3000/users",
+    "url": "http://localhost:8000/users",
     "method": "GET",
     "timeout": 0,
     "processData": false,
     "mimeType": "multipart/form-data",
-    "contentType": false,
-    "data": form
+    "contentType": false
   };
   
   $.ajax(settings).done(function (response) {
-    console.log(response);
+    console.log('retorno: ', response);
   });
 });

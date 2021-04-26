@@ -1,9 +1,10 @@
 #!/bin/bash
 if !(nodemon --version); then
-    echo "nodemon not found. Installing."
+    echo "Node dependencies not found. Installing."
     npm install -g nodemon
+    npm install cors --save
 else
-    echo "Nodemon found. Proceeding"
+    echo "Node dependencies found. Proceeding"
 fi
 
 go=0;
