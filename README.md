@@ -36,7 +36,7 @@ The objective of this training is to get a simple CRUD application using the abo
 
     4. Practice (???):
        a. A sample of this frontend + backend files will be given to the traineers and it will be asked them to configure the services in a way like this project, using Docker, Nginx, NodeJS and MySQL.
-            a.1. The docker-compose will not be given and it or any other task may be added or removed - feel free to help me deciding what to ask them to config/develop by themselves.
+            a.1. The docker-compose will not be given and it or any other task may be added or removed - feel free to decidide what to ask them to config/develop by themselves.
             a.2. It is possible that this practice will require some days to be completed.
             a.3. I'm using the premise that they need to focus on the service side rather than development, but without a glimpse of that previous one, its more difficult to visualize everything working together.
 
