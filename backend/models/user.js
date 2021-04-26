@@ -57,8 +57,8 @@ User.getAllUsers = result => {
 
 User.updateById = (id, user, result) => {
   conn.query(
-    "UPDATE users SET email = ?, name = ?, active = ? WHERE id = ?",
-    [user.email, user.name, user.active, id],
+    "UPDATE users SET username = ?, password = ?, type = ?, email = ?, name = ?, active = ? WHERE id = ?",
+    [user.username, user.password, user.type, user.email, user.name, user.active, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

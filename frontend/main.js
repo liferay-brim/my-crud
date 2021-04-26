@@ -1,5 +1,6 @@
 let backendServer = "http://localhost:8000";
 let userToBeRemovedId = 0;
+let userToBeEdited = 0;
 
 $(document).ready(function () {
   // Activate tooltip
@@ -32,11 +33,16 @@ $(document).ready(function () {
     addUser();
   });
 
+  $("#editUser").click(function () {
+    updateUser();
+  });
+
   $("#deleteUser").click(function () {
     confirmDeleteUser();
   });
 
   getAllUsers();
+  clearUserForm();
 });
 
 function getAllUsers() {
@@ -57,8 +63,10 @@ function getAllUsers() {
     let tableBody = "";
 
     if (users.length == 0) {
-      $('.table.table-striped.table-hover').hide();
-      $('.table.table-striped.table-hover').before('<div class="no-user-div">Ainda não existem usuários cadastrados.</div>');
+      $(".table.table-striped.table-hover").hide();
+      $(".table.table-striped.table-hover").before(
+        '<div class="no-user-div">Ainda não existem usuários cadastrados.</div>'
+      );
     } else {
       $.each(users, function (key, value) {
         let row = `
@@ -80,10 +88,12 @@ function getAllUsers() {
           <td>${value.type}</td>
           <td>${value.active == 1 ? "Sim" : "Não"}</td>
           <td>
-            <!-- <a href="#editEmployeeModal" class="edit" data-toggle="modal">
-              <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
-            </a> -->
-            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
+            <a href="#editEmployeeModal" class="edit" data-toggle="modal" style="color: grey;">
+              <i class="material-icons" data-toggle="tooltip" title="Edit" onclick="loadEditUser(${
+                value.id
+              });">&#xE254;</i>
+            </a>
+            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal" style="color: #F08080;">
               <i class="material-icons" data-toggle="tooltip" title="Delete" onclick="userToBeRemoved(${
                 value.id
               });">&#xE872;</i>
@@ -121,11 +131,11 @@ function addUser() {
         "Content-Type": "application/json",
       },
       data: JSON.stringify({
-        username: $("#addUserFormLogin").val(),
+        username: $("#addUserFormLogin").val().toUpperCase(),
         password: $("#addUserFormPassword").val(),
-        name: $("#addUserFormName").val(),
+        name: $("#addUserFormName").val().toUpperCase(),
         email: $("#addUserFormEmail").val(),
-        type: $("#addUserFormType").val(),
+        type: $("#addUserFormType").val().toUpperCase(),
         active: true,
       }),
     };
@@ -133,15 +143,81 @@ function addUser() {
     $.ajax(settings).done(function (response) {
       console.log(response);
       if (!alert("Usuário adicionado com sucesso!")) {
+        clearUserForm();
         window.location.reload();
       }
     });
   }
 }
 
-function userToBeRemoved(value) {
-  console.log("User to be removed: ", value);
-  userToBeRemovedId = value;
+function userToBeRemoved(id) {
+  userToBeRemovedId = id;
+}
+
+function loadEditUser(id) {
+  userToBeEdited = id;
+  var form = new FormData();
+  var settings = {
+    url: backendServer + "/users/" + id,
+    method: "GET",
+    timeout: 0,
+    processData: false,
+    mimeType: "multipart/form-data",
+    contentType: false,
+    data: form,
+  };
+
+  $.ajax(settings).done(function (response) {
+    let userToBeEdited = JSON.parse(response);
+    console.log(userToBeEdited.username);
+    if (response) {
+      $("#editUserFormLogin").val(userToBeEdited.username);
+      $("#editUserFormPassword").val(userToBeEdited.password);
+      $("#editUserFormName").val(userToBeEdited.name);
+      $("#editUserFormEmail").val(userToBeEdited.email);
+      $("#editUserFormType").val(userToBeEdited.type);
+    }
+  });
+}
+
+function updateUser() {
+  if (
+    !$("#editUserFormLogin").val() ||
+    !$("#editUserFormPassword").val() ||
+    !$("#editUserFormName").val() ||
+    !$("#editUserFormEmail").val() ||
+    !$("#editUserFormType").val()
+  ) {
+    alert("Todos os campos são obrigatórios!");
+  } else if ($("#editUserFormEmail").val().indexOf("@") < 1) {
+    alert("Preencha o campo de email corretamente");
+  } else {
+    console.log("entrou no else!");
+    var settings = {
+      url: backendServer + "/users/" + userToBeEdited,
+      method: "PUT",
+      timeout: 0,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify({
+        id: userToBeEdited,
+        username: $("#editUserFormLogin").val().toUpperCase(),
+        password: $("#editUserFormPassword").val(),
+        name: $("#editUserFormName").val().toUpperCase(),
+        email: $("#editUserFormEmail").val().toUpperCase(),
+        type: $("#editUserFormType").val(),
+        active: $("#activeOpts").val().toUpperCase(),
+      }),
+    };
+
+    $.ajax(settings).done(function (response) {
+      console.log(response);
+      if (!alert("Usuário atualizado com sucesso!")) {
+        window.location.reload();
+      }
+    });
+  }
 }
 
 function confirmDeleteUser() {
@@ -158,4 +234,12 @@ function confirmDeleteUser() {
       window.location.reload();
     }
   });
+}
+
+function clearUserForm() {
+  $("#addUserFormLogin").val("");
+  $("#addUserFormPassword").val("");
+  $("#addUserFormName").val("");
+  $("#addUserFormEmail").val("");
+  $("#addUserFormType").val("");
 }
