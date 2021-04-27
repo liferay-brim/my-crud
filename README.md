@@ -8,7 +8,7 @@ There are some post-ready scripts inside the docker-config that are run automati
 
 ## branch exercise: 
 
-This branch will be breaked or have some contents removed in order to you create/fix your project.
+This branch will be breaked or have some contents removed in order to you create/fix your project. Clone/fork from here to develop your version.
 
 ## Learning Plan:
 
