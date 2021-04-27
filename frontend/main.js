@@ -118,7 +118,6 @@ function getAllUsers() {
 }
 
 function getAllUsersByNameLike(nameToSearch) {
-
   console.log(nameToSearch);
   // Construa a request para o endpoint do backend. No retorno, você pode usar renderização na tabela aproveitando o código abaixo:
 
@@ -204,9 +203,13 @@ function addUser() {
 
     $.ajax(settings).done(function (response) {
       console.log(response);
-      if (!alert("Usuário adicionado com sucesso!")) {
-        clearUserForm();
-        window.location.reload();
+      if (response) {
+        if (!alert("Usuário adicionado com sucesso!")) {
+          clearUserForm();
+          window.location.reload();
+        }
+      } else {
+        alert("Houve um problema ao tentar criar um usuário!")
       }
     });
   }
