@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS my_crud;
 
 USE my_crud;
 
-CREATE table if not exists users (
+CREATE TABLE IF NOT EXISTS users (
 	id int(5) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     username varchar(150) NOT NULL,
     password varchar(150) NOT NULL,
