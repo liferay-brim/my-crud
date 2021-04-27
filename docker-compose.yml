@@ -11,7 +11,6 @@ services:
       - ./frontend:/var/www/html
     links:
       - node
-    env_file: ./.env
     networks:
       - my-app-network
 
@@ -29,18 +28,16 @@ services:
     ports:
       - "8000:8000"
     entrypoint: /data/application/start_application.sh
-    env_file: ./.env
     environment:
       "NODE_ENV": "development"
     networks:
       - my-app-network
 
   mysql:
-    env_file: ./.env
     image: mysql:5.7
     container_name: mysql
     volumes:
-      - ./database/db:/var/lib/mysql
+      - ./database:/var/lib/mysql
       - ./docker-config/mysql/docker.cnf:/etc/mysql/conf.d/docker.cnf
       - ./docker-config/mysql/init.sql:/data/application/init.sql
     command: --init-file /data/application/init.sql
