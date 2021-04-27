@@ -43,12 +43,12 @@
                 ><i class="material-icons">&#xE147;</i>
                 <span>Adicionar</span></a
               >
-              <!-- Essa seção de excluir selecionados vai ser adicionada depois -->
+              <!-- This section can be implemented by the traineers -->
               <!-- <a
-                href="#deleteEmployeeModal"
+                href="#deleteEmployeeModalBatch"
                 class="btn btn-danger"
                 data-toggle="modal"
-                ><i class="material-icons">&#xE15C;</i>
+                ><i class="material-icons" id="batchExclude">&#xE15C;</i>
                 <span>Excluir Selecionados</span></a
               > -->
             </div>
@@ -58,10 +58,6 @@
           <thead>
             <tr>
               <th>
-                <span class="custom-checkbox">
-                  <input type="checkbox" id="selectAll" />
-                  <label for="selectAll"></label>
-                </span>
               </th>
               <th>Nome</th>
               <th>Email</th>
@@ -275,6 +271,48 @@
                 class="btn btn-danger"
                 value="Delete"
                 id="deleteUser"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Modal Batch HTML -->
+    <div id="deleteEmployeeModalBatch" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div>
+            <div class="modal-header">
+              <h4 class="modal-title">Apagar Todos os Usuários Selecionados?</h4>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true"
+              >
+                &times;
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Você tem certeza que quer apagar todos os usuários selecionados?</p>
+              <p class="text-warning">
+                <small>Essa ação não pode ser desfeita.</small>
+              </p>
+            </div>
+            <div class="modal-footer">
+              <input
+                type="button"
+                class="btn btn-default"
+                data-dismiss="modal"
+                value="Cancel"
+                id="abortDeleteUser"
+              />
+              <input
+                type="submit"
+                class="btn btn-danger"
+                value="Delete"
+                id="deleteUserBatch"
               />
             </div>
           </div>
