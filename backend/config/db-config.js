@@ -1,5 +1,5 @@
 module.exports = {
-    host: "mysql",
+    host: "mysql-mycrud",
     user: "root",
     password: "mypass",
     database: "my_crud",
