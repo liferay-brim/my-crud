@@ -1,3 +1,51 @@
+version: "3.9"
+services:
+  nginx-mycrud:
+      container_name: nginx-mycrud
+      working_dir: /var/www/html/
+      image: nginx
+      ports:
+        - "80:80"
+      volumes:
+        - ./mycrud/frontend:/var/www/html
+        - ./docker-config/nginx/default.conf:/etc/nginx/nginx.conf.default
+      healthcheck:
+        test: ["CMD-SHELL", "curl --fail http://localhost:80/ || exit 1"]
+        interval: 1m
+        timeout: 10s
+        retries: 3
+
+
+  node-mycrud:
+    container_name: node-mycrud
+    image: node
+    ports:
+     - "9001:9001"
+    volumes:
+     - ./backend:/home/node/app
+    restart: always
+    healthcheck:
+     test: ["CMD-SHELL", "curl -f http://localhost:9001"]
+     interval: 20s
+     timeout: 10s
+     retries: 3
+       
+
+  mysql-mycrud:
+    container_name: mysql-mycrud
+    image: mysql:5.7.35
+    volumes: 
+      - ./database:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD-SHELL", "/usr/bin/mysql --user=root --execute \"SHOW DATABASES;\""]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+=======
 version: "3.1"
 services:
   nginx-mycrud:
