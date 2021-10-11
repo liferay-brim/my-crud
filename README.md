@@ -6,6 +6,10 @@ To get it ready, simple run a ***docker-compose up*** on this project root folde
 
 There are some post-ready scripts inside the docker-config that are run automatically. If you need some info, dig on it!
 
+## branch exercise: 
+
+This branch will be breaked or have some contents removed in order to you create/fix your project. Clone/fork from here to develop your version.
+
 ## Learning Plan:
 
 The objective of this training is to get a simple CRUD application using the above mentioned tools and help the learners to visualize different layers communicating with each other.
