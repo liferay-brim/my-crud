@@ -25,7 +25,11 @@ services:
     volumes:
      - ./backend:/home/node/app
     restart: always
-
+    healthcheck:
+     test: ["CMD-SHELL", "curl -f http://localhost:9001"]
+     interval: 1m
+     timeout: 20s
+     retries: 3
        
 
   mysql-mycrud:
