@@ -1,45 +1,37 @@
-version: "3.9"
-services:
-  nginx-mycrud:
-      container_name: nginx-mycrud
-      working_dir: /var/www/html/
-      image: nginx
-      ports:
-        - "80:80"
-      volumes:
-        - ./mycrud/frontend:/var/www/html
-        - ./docker-config/nginx/default.conf:/etc/nginx/nginx.conf.default
-      healthcheck:
-        test: ["CMD-SHELL", "curl --fail http://localhost:80/ || exit 1"]
-        interval: 1m
-        timeout: 10s
-        retries: 3
-
-  node-mycrud:
-    container_name: node-mycrud
-    image: node
-    ports:
-     - "9001:9001"
-    volumes:
-     - ./backend:/home/node/app
+version: "3.7"
+services: 
+  nginx-mycrud: 
+    image: "nginx:1.20.2"
+    container_name: nginx-mycrud
     restart: always
-    healthcheck:
-     test: ["CMD-SHELL", "curl -f http://localhost:9001"]
-     interval: 20s
-     timeout: 10s
-     retries: 3
-       
+    ports:
+      - "80:80"
+    volumes:
+    - ./frontend:/var/www/html
+    - ./docker-config/nginx:/etc/nginx/conf.d
+     
+  node-mycrud:
+    image: "node:17-slim"
+    container_name: node-mycrud 
+    working_dir: /application/app
+    volumes:
+    - ./backend:/application/app
+    - ./docker-config/node:/application
+    ports:
+      - "8000:8000"
+    depends_on: 
+      - mysql-mycrud
+    entrypoint: /application/start_application.sh
+    
   mysql-mycrud:
+    image: "mysql:8.0"
     container_name: mysql-mycrud
-    image: mysql:5.7.35
-    volumes: 
-      - ./database:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: mypass
+    volumes:
+      - ./db:/var/lib/mysql
+      - ./docker-config/mysql/init.sql:/docker-entrypoint-initdb.d/initdb.sql
+    restart: always  
     ports:
       - "3306:3306"
-    restart: always
-    command: --default-authentication-plugin=mysql_native_password
-    healthcheck:
-      test: ["CMD-SHELL", "/usr/bin/mysql --user=root --execute \"SHOW DATABASES;\""]
-      interval: 30s
-      timeout: 10s
-      retries: 3
