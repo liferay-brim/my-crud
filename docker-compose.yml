@@ -1,55 +1,37 @@
-version: "3.1"
-services:
-  nginx-mycrud:
-    image: nginx:latest
+version: "3.7"
+services: 
+  nginx-mycrud: 
+    image: "nginx:1.20.2"
     container_name: nginx-mycrud
-    working_dir: /var/www/html
+    restart: always
     ports:
       - "80:80"
     volumes:
-      - ./docker-config/nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./frontend:/var/www/html
-    links:
-      - node-mycrud
-    networks:
-      - my-app-network-mycrud
-
+    - ./frontend:/var/www/html
+    - ./docker-config/nginx:/etc/nginx/conf.d
+     
   node-mycrud:
-    image: node:15
-    container_name: node-mycrud
-    working_dir: /application
+    image: "node:17-slim"
+    container_name: node-mycrud 
+    working_dir: /application/app
     volumes:
-      - ./backend/:/application
-      - ./docker-config/node/start_application.sh:/data/application/start_application.sh
-    links:
-      - mysql-mycrud
-    depends_on: 
-      - mysql-mycrud
+    - ./backend:/application/app
+    - ./docker-config/node:/application
     ports:
       - "8000:8000"
-    entrypoint: /data/application/start_application.sh
-    environment:
-      "NODE_ENV": "development"
-    networks:
-      - my-app-network-mycrud
-
+    depends_on: 
+      - mysql-mycrud
+    entrypoint: /application/start_application.sh
+    
   mysql-mycrud:
-    image: mysql:5.7
+    image: "mysql:8.0"
     container_name: mysql-mycrud
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: mypass
     volumes:
-      - ./database:/var/lib/mysql
-      - ./docker-config/mysql/docker.cnf:/etc/mysql/conf.d/docker.cnf
-      - ./docker-config/mysql/init.sql:/data/application/init.sql
-    command: --init-file /data/application/init.sql
-    restart: always
+      - ./db:/var/lib/mysql
+      - ./docker-config/mysql/init.sql:/docker-entrypoint-initdb.d/initdb.sql
+    restart: always  
     ports:
       - "3306:3306"
-    environment:
-      "MYSQL_DATABASE": "my_crud"
-      "MYSQL_ROOT_PASSWORD": "mypass"
-    networks:
-      - my-app-network-mycrud
-
-networks:
-  my-app-network-mycrud:
-    driver: bridge
