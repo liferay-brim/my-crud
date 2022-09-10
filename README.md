@@ -87,3 +87,7 @@ c) Tasks for NGINX container:
 d) Don't forget to commit and push your project into your forked repository.
 
 ----------------------------------------------------------------
+
+### Infrastructure model
+
+![Infrastructure model](.infragenie/infrastructure_model.png)
