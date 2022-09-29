@@ -74,9 +74,9 @@ b) Tasks for Node container (Node:15 image):
 
 	5) Replace the database connection parameters on './backend/config/db-config.js'. The host (container-name) and password are the ones you defined when create the database. User is "root" and database is "my_crud".
 
-	6) Specify "working_dir" as /home/node
+	6) Specify "working_dir" as /application
 
-    	7) Mount local directory /backend/ with container /home/node
+    	7) Mount local directory /backend/ with container /application
 
     	8) Find a way to run docker-config/node/start_application.sh in the Node container, as soon as it is started
 
