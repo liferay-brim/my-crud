@@ -68,7 +68,13 @@ b) Tasks for Node container:
 
 	2) Create a bridge network on your docker-compose and add it to all containers;
 
-	3) Replace the database connection parameters on './backend/config/db-config.js'. The host will be the container name you supplied on the docker-file.yml. Use database name as 'my_crud' and the user and password you used to create the database.
+	3) Replace the database connection parameters on './backend/config/db-config.js'. The host (container-name) and password are the ones you defined when create the database. User is "root" and database is "my_crud".
+
+	4) Specify "working_dir" as /home/node
+
+    	5) Mount local directory /backend/ with container /home/node
+
+    	6) Find a way to run docker-config/node/start_application.sh in the Node container, as soon as it is started
 
 c) Tasks for NGINX container:
 
