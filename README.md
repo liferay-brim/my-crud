@@ -53,32 +53,36 @@ The objective of this training is to get a simple CRUD application using the abo
 
 a) Tasks for MySQL container:
 
-	1) Run a MYSQL:5.7 image inside a container with docker-compose.    
+	1) Run a MYSQL:5.7 image inside a container with docker-compose;
 
-    2) The MySQL Server inside this image uses the following folder to store the database files. Pull it out from the container with a volume to keep its data persistent:
+    	2) The MySQL Server inside this image uses the following folder to store the database files. Pull it out from the container with a volume to keep its data persistent:
         /var/lib/mysql
-	    
-	3) Execute on the container startup the file './docker-config/mysql/init.sql' to create the default DATABASE and TABLE users.
 	
-	4) In order to let the node server to connect the database, we'll have to add the 'skip-grant-tables' tag on the '/etc/mysql/conf.d/docker.cnf' folder inside the container. We can use the 'volumes' feature to override it on the container with the file supplied on the './docker-config/mysql/docker.cnf';
-
-b) Tasks for Node container:
+	3) Execute on the container startup the file './docker-config/mysql/init.sql' to create the default DATABASE and TABLE users;
 	
-	1) Define a PORT to the node service on the docker-compose and the app.js file and expose it to your host;
+	4) In order to let the node server to connect the database, we'll have to add the 'skip-grant-tables' tag on the '/etc/mysql/conf.d/docker.cnf' folder inside the container. We can use the 'volumes' feature to override it on the container with the file supplied on the './docker-config/mysql/docker.cnf'.
 
-	2) Create a bridge network on your docker-compose and add it to all containers;
+b) Tasks for Node container (Node:15 image):
 
-	3) Replace the database connection parameters on './backend/config/db-config.js'. The host (container-name) and password are the ones you defined when create the database. User is "root" and database is "my_crud".
+	1) Run a Node:15 image inside a container with docker-compose;
+	
+	2) Define a PORT to the node service on the docker-compose and the app.js file and expose it to your host;
+	
+	3) Define a PORT to the node service on the docker-compose and the app.js file and expose it to your host;
 
-	4) Specify "working_dir" as /home/node
+	4) Create a bridge network on your docker-compose and add it to all containers;
 
-    	5) Mount local directory /backend/ with container /home/node
+	5) Replace the database connection parameters on './backend/config/db-config.js'. The host (container-name) and password are the ones you defined when create the database. User is "root" and database is "my_crud".
 
-    	6) Find a way to run docker-config/node/start_application.sh in the Node container, as soon as it is started
+	6) Specify "working_dir" as /home/node
 
-c) Tasks for NGINX container:
+    	7) Mount local directory /backend/ with container /home/node
 
-	1) Run a base image of nginx.
+    	8) Find a way to run docker-config/node/start_application.sh in the Node container, as soon as it is started
+
+c) Tasks for NGINX container (can use nginx latest version, although it is :
+
+	1) Run a nginx:1.22 image inside a container with docker-compose; 
 
 	2) Override the file '/etc/nginx/conf.d/default.conf' inside the container with './docker-config/nginx/default.conf';
 
@@ -88,8 +92,8 @@ c) Tasks for NGINX container:
 
 	5) Check/replace the port of your node server on the line one of './frontend/main.js' with your selected port.
 
-	6) Test your full project accessing http://localhost/ on your browser.
+d) Test your full project accessing http://localhost/ on your browser.
 
-d) Don't forget to commit and push your project into your forked repository.
+e) Don't forget to commit and push your project into your forked repository.
 
 ----------------------------------------------------------------
