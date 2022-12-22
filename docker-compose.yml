@@ -12,14 +12,14 @@ services:
 
   node-mycrud:
     container_name: node-mycrud
-    image: node
+    image: node:15
     ports:
      - "9001:9001"
     volumes:
      - ./backend:/application
-     - ./docker-config/node/start_application.sh:/application/start_application.sh
+     - ./docker-config/node/start_application.sh:/start_application.sh
     restart: always
-    entrypoint: /application/start_application.sh
+    entrypoint: /start_application.sh
     healthcheck:
      test: ["CMD-SHELL", "curl -f http://localhost:9001"]
      interval: 20s

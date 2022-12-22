@@ -64,7 +64,7 @@ a) Tasks for MySQL container:
 
 b) Tasks for Node container:
 	
-	1) Define a PORT to the node service on the docker-compose and the app.js file and expose it to your host;
+	1) Define a PORT to the node:15 service on the docker-compose and the app.js file and expose it to your host;
 
 	2) Create a bridge network on your docker-compose and add it to all containers;
 
